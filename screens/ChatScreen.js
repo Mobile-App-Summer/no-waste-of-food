@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useContext } from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 import { IconButton } from '../components';
 import Firebase from '../config/firebase';
@@ -8,7 +8,7 @@ import { AuthenticatedUserContext } from '../navigation/AuthenticatedUserProvide
 
 const auth = Firebase.auth();
 
-export default function HomeScreen() {
+export default function ChatScreen() {
   const { user } = useContext(AuthenticatedUserContext);
   const handleSignOut = async () => {
     try {
@@ -20,16 +20,8 @@ export default function HomeScreen() {
   return (
     <View style={styles.container}>
       <StatusBar style='dark-content' />
-           {/* LOGO */}
-      <View style={styles.imageContainer}>
-      <Image
-        style={styles.tinyLogo}
-        source={require('../assets/logo.png')}
-      />
-      </View>
-      {/* LOGO */}
       <View style={styles.row}>
-        <Text style={styles.title}>Welcome {user.email}!</Text>
+        <Text style={styles.title}>Welcome</Text>
         <IconButton
           name='logout'
           size={24}
@@ -64,14 +56,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'normal',
     color: '#fff'
-  },
-  imageContainer: {
-    alignItems:'center',
-    marginTop: 25
-  },
-
-  tinyLogo: {
-    width: 294,
-    height: 200,
-  },
+  }
 });
