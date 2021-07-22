@@ -40,12 +40,15 @@ export default function SignupScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <StatusBar style='dark-content' />
+      {/* LOGO */}
       <View style={styles.imageContainer}>
       <Image
         style={styles.tinyLogo}
         source={require('../assets/logo.png')}
       />
       </View>
+      {/* LOGO */}
+
       <Text style={styles.text}>UserName</Text>
       <InputField
         inputStyle={{

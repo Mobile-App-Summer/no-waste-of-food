@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { useState } from 'react';
-import { StyleSheet, Text, View, Button as RNButton } from 'react-native';
+import { StyleSheet, Text, View,TouchableOpacity, Image,Button as RNButton } from 'react-native';
 
 import { Button, InputField, ErrorMessage } from '../components';
 import Firebase from '../config/firebase';
@@ -39,12 +39,22 @@ export default function LoginScreen({ navigation }) {
     <View style={styles.container}>
       <StatusBar style='dark-content' />
       <Text style={styles.title}>Login</Text>
+      {/* LOGO */}
+      <View style={styles.imageContainer}>
+      <Image
+        style={styles.tinyLogo}
+        source={require('../assets/logo.png')}
+      />
+      </View>
+      {/* LOGO */}
+      {/* EMAIL */}
+      <Text style={styles.text}>Email</Text>
       <InputField
         inputStyle={{
           fontSize: 14
         }}
         containerStyle={{
-          backgroundColor: '#fff',
+          backgroundColor: '#ECBDB0',
           marginBottom: 20
         }}
         leftIcon='email'
@@ -56,12 +66,15 @@ export default function LoginScreen({ navigation }) {
         value={email}
         onChangeText={text => setEmail(text)}
       />
+
+      {/* Password */}
+      <Text style={styles.text}>Password</Text>
       <InputField
         inputStyle={{
           fontSize: 14
         }}
         containerStyle={{
-          backgroundColor: '#fff',
+          backgroundColor: '#ECBDB0',
           marginBottom: 20
         }}
         leftIcon='lock'
@@ -76,21 +89,20 @@ export default function LoginScreen({ navigation }) {
         handlePasswordVisibility={handlePasswordVisibility}
       />
       {loginError ? <ErrorMessage error={loginError} visible={true} /> : null}
-      <Button
+      
+      <View style={styles.buttonContainer}>
+      <TouchableOpacity 
         onPress={onLogin}
-        backgroundColor='#f57c00'
-        title='Login'
-        tileColor='#fff'
-        titleSize={20}
-        containerStyle={{
-          marginBottom: 24
-        }}
-      />
-      <RNButton
+        style={{alignItems:'center',justifyContent:'center', backgroundColor:'#E05A33', height: 45, width: 200, color: 'white'}}>
+      <Text style={{fontSize:12,}}>SIGN IN</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity 
         onPress={() => navigation.navigate('Signup')}
-        title='Go to Signup'
-        color='#fff'
-      />
+        style={{alignItems:'center',justifyContent:'center',color: 'white'}}>
+      <Text style={{fontSize:12,}}>You don't have an account?</Text>
+      </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -98,15 +110,36 @@ export default function LoginScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#e93b81',
+    backgroundColor: 'white',
     paddingTop: 50,
     paddingHorizontal: 12
   },
+  imageContainer: {
+    alignItems:'center',
+    marginTop: 25
+  },
+
+  tinyLogo: {
+    width: 294,
+    height: 200,
+  },
+
   title: {
     fontSize: 24,
     fontWeight: '600',
     color: '#fff',
     alignSelf: 'center',
     paddingBottom: 24
-  }
+  },
+
+  buttonContainer:{
+    fontSize: 25,
+    color:'#fff', 
+    alignItems:'center',
+    justifyContent:'center', 
+  },
+
+  text:{
+    marginTop: 15
+  },
 });
