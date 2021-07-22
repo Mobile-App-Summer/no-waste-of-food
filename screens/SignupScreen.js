@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { useState } from 'react';
-import { StyleSheet, Text, View, Button as RNButton } from 'react-native';
+import { StyleSheet, Text, View, Image,TouchableOpacity, Button as RNButton } from 'react-native';
 
 import { Button, InputField, ErrorMessage } from '../components';
 import Firebase from '../config/firebase';
@@ -40,7 +40,13 @@ export default function SignupScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <StatusBar style='dark-content' />
-      <Text style={styles.title}>Create new account</Text>
+      <View style={styles.imageContainer}>
+      <Image
+        style={styles.tinyLogo}
+        source={require('../assets/logo.png')}
+      />
+      </View>
+      <Text style={styles.text}>UserName</Text>
       <InputField
         inputStyle={{
           fontSize: 14
@@ -56,6 +62,8 @@ export default function SignupScreen({ navigation }) {
         value={userName}
         onChangeText={text => setUserName(text)}
       />
+      <Text style={styles.text}>Full Name</Text>
+      
       <InputField
         inputStyle={{
           fontSize: 14
@@ -72,6 +80,7 @@ export default function SignupScreen({ navigation }) {
         value={name}
         onChangeText={text => setName(text)}
       />
+      <Text style={styles.text}>Email</Text>
 
       <InputField
         inputStyle={{
@@ -90,6 +99,8 @@ export default function SignupScreen({ navigation }) {
         value={email}
         onChangeText={text => setEmail(text)}
       />
+      <Text style={styles.text}>Password</Text>
+
         <InputField
         inputStyle={{
           fontSize: 14
@@ -108,23 +119,24 @@ export default function SignupScreen({ navigation }) {
         value={password}
         onChangeText={text => setPassword(text)}
         handlePasswordVisibility={handlePasswordVisibility}
-      />
+      />        
+
       {signupError ? <ErrorMessage error={signupError} visible={true} /> : null}
-      <Button
-        onPress={onHandleSignup}
-        backgroundColor='#f57c00'
-        title='Signup'
-        tileColor='#fff'
-        titleSize={20}
-        containerStyle={{
-          marginBottom: 24
-        }}
-      />
-      <RNButton
-        onPress={() => navigation.navigate('Login')}
-        title='Go to Login'
-        color='#fff'
-      />
+      <View style={styles.buttonContainer}>
+
+      <TouchableOpacity 
+      onPress={onHandleSignup}
+      style={{alignItems:'center',justifyContent:'center', backgroundColor:'#E05A33', height: 45, width: 200, color: 'white'}}>
+     <Text style={{fontSize:12,}}>SIGN UP</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity 
+      onPress={() => navigation.navigate('Login')}
+      style={{alignItems:'center',justifyContent:'center'}}>
+     <Text style={{fontSize:12,}}>Already have an account?</Text>
+    </TouchableOpacity>
+    </View>
+
     </View>
   );
 }
@@ -133,14 +145,24 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-    paddingTop: 50,
-    paddingHorizontal: 12
+    paddingHorizontal: 12,
   },
-  title: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: '#fff',
-    alignSelf: 'center',
-    paddingBottom: 24
+
+  tinyLogo: {
+    width: 294,
+    height: 200,
+  },
+  imageContainer: {
+    alignItems:'center',
+    marginTop: 100
+  },
+  text:{
+    marginTop: 15
+  },
+  buttonContainer:{
+    fontSize: 25,
+    color:'white', 
+    alignItems:'center',
+    justifyContent:'center', 
   }
 });
