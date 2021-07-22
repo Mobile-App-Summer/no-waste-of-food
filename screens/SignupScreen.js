@@ -16,6 +16,7 @@ export default function SignupScreen({ navigation }) {
   const [passwordVisibility, setPasswordVisibility] = useState(true);
   const [rightIcon, setRightIcon] = useState('eye');
   const [signupError, setSignupError] = useState('');
+  const [leftIcon, setleftIcon] = useState('adduser');
 
   const handlePasswordVisibility = () => {
     if (rightIcon === 'eye') {
@@ -58,7 +59,7 @@ export default function SignupScreen({ navigation }) {
           backgroundColor: '#ECBDB0',
           marginBottom: 20
         }}
-        leftIcon='person'
+        leftIcon='heart'
         placeholder='UserName'
         autoCapitalize='none'
         autoFocus={true}
@@ -75,7 +76,7 @@ export default function SignupScreen({ navigation }) {
           backgroundColor: '#ECBDB0',
           marginBottom: 20
         }}
-        leftIcon='person'
+        leftIcon='rowing'
         placeholder='Name:'
         autoCapitalize='none'
         autoCorrect={false}
