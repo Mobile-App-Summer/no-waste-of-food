@@ -138,8 +138,4 @@ const styles = StyleSheet.create({
     alignItems:'center',
     justifyContent:'center', 
   },
-
-  text:{
-    marginTop: 15
-  },
 });
