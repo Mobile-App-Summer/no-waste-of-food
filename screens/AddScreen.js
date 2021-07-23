@@ -1,35 +1,90 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useContext } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-
-import { IconButton } from '../components';
+import { Button, Input, Image } from 'react-native-elements';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import Firebase from '../config/firebase';
-import { AuthenticatedUserContext } from '../navigation/AuthenticatedUserProvider';
+import 'firebase/firestore';
 
 const auth = Firebase.auth();
+const db = Firebase.firestore();
 
-export default function AsssddScreen() {
-  const { user } = useContext(AuthenticatedUserContext);
-  const handleSignOut = async () => {
-    try {
-      await auth.signOut();
-    } catch (error) {
-      console.log(error);
+export default function AddScreen() {
+  const [foodName, setFoodName] = useState('');
+  const [description, setDescription] = useState('');
+  const [expirationDate, setExpirationDate] = useState(new Date())
+  const [imageUrl, setImageUrl] = useState('https://i.pinimg.com/originals/94/ee/2f/94ee2fda4931c26b3c55ed23d28e885e.png');
+
+  const add = async() => {
+    if (foodName === '') {
+      alert('Food needs a name!')
+      return;
     }
-  };
+    const uid = auth?.currentUser?.uid;
+    if (!uid) {
+        alert('No authenticated user found!')
+        return;
+    }
+      try {
+          const ref = db.collection('foodTrackers').doc(uid).collection('foods').doc();
+          const id = ref.id;
+          await ref.set({
+              id,
+              foodName,
+              description,
+              expiry: expirationDate,
+          })
+          alert(`${foodName} added`);
+          //clear variables
+      } catch (error) {
+          alert(error);
+      }
+  }
+
+    const onDateChange = (event, selectedDate) => {
+        const currentDate = selectedDate || expirationDate;
+        setExpirationDate(currentDate);
+    };
+
+
   return (
     <View style={styles.container}>
-      <StatusBar style='dark-content' />
-      <View style={styles.row}>
-        <Text style={styles.title}>Welcome</Text>
-        <IconButton
-          name='logout'
-          size={24}
-          color='#fff'
-          onPress={handleSignOut}
+      <StatusBar style='dark-content'  />
+
+      <Image source = {{
+        uri: imageUrl,
+      }}
+             style={{width: 200, height: 200}}
+      />
+
+      <View style ={styles.inputContainer}>
+        <Input
+            placeholder="Food"
+            autoFocus
+            type = 'text'
+            value={foodName}
+            onChangeText={(text) => setFoodName(text)}
         />
+        <Input
+            placeholder='Description'
+            type ='text'
+            value={description}
+            onChangeText={(text) => setDescription(text)}
+            onSubmitEditing={add}
+        />
+          <Text>Expiration Date: </Text>
+          <DateTimePicker
+              testID="dateTimePicker"
+              value={expirationDate}
+              mode={'date'}
+              display="default"
+              onChange={onDateChange}
+          />
       </View>
-      <Text style={styles.text}>Your UID is: {user.uid} </Text>
+
+      <Button containerStyle = {styles.button} onPress={add} title="Add Food"/>
+
+      <View style = {{ height: 100}}/>
     </View>
   );
 }
@@ -55,6 +110,9 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 16,
     fontWeight: 'normal',
-    color: '#fff'
-  }
+    color: '#000'
+  },
+    button: {
+        marginTop: 10,
+    },
 });
