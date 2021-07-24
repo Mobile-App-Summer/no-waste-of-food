@@ -44,7 +44,6 @@ export default function AddScreen() {
             } else {
                 await saveToFireStore(id, ref, DEFAULT_IMAGE)
             }
-            //clear variables
         } catch (error) {
             alert(error.message());
         }
@@ -57,9 +56,15 @@ export default function AddScreen() {
             description,
             imageUrl: imageUrl,
             expiry: expirationDate,
-            isActive: true,
+            isConsumed: false,
         })
-            .then(response => {alert(`${foodName} added`)})
+            .then(response => {
+                alert(`${foodName} added`)
+                setFoodName('')
+                setDescription('')
+                setImage('')
+                setExpirationDate(new Date())
+            })
             .catch(error => alert(error.message()));
     }
 
@@ -81,7 +86,9 @@ export default function AddScreen() {
 
     const pickImage = async () => {
         ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.All
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing:true,
+            quality: 0.5
         }).then(result => {
             console.log(result);
             if (!result.cancelled) {
@@ -101,12 +108,13 @@ export default function AddScreen() {
     return (
         <View style={styles.container}>
             <StatusBar style='dark-content'  />
+            <Text  style={styles.text}>Add Food </Text>
 
             <Image source = {{uri:  image !== '' ? image : DEFAULT_IMAGE}}
                    style={{width: 200, height: 200}}
             />
 
-            <View style ={styles.inputContainer}>
+            <View style={styles.inputContainer}>
                 <Input
                     placeholder="Food"
                     autoFocus
@@ -122,17 +130,17 @@ export default function AddScreen() {
                     onSubmitEditing={add}
                 />
                 <Text>Expiration Date: </Text>
-                <DateTimePicker
+                <DateTimePicker  style={styles.datepicker}
                     testID="dateTimePicker"
                     value={expirationDate}
                     mode={'date'}
                     display="default"
                     onChange={onDateChange}
                 />
-                <Button title="Pick an image" onPress={pickImage} />
+
 
             </View>
-
+            <Button title="Pick an image" onPress={pickImage} />
             <Button containerStyle = {styles.button} onPress={add} title="Add Food"/>
 
             <View style = {{ height: 100}}/>
@@ -145,7 +153,12 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: 'white',
         paddingTop: 50,
-        paddingHorizontal: 12
+        alignItems : 'center',
+        justifyContent: 'center',
+    },
+    inputContainer:{
+        width: 300,
+        marginTop: 10,
     },
     row: {
         flexDirection: 'row',
@@ -156,7 +169,7 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 24,
         fontWeight: '600',
-        color: '#fff'
+        color: '#000'
     },
     text: {
         fontSize: 16,
@@ -165,5 +178,9 @@ const styles = StyleSheet.create({
     },
     button: {
         marginTop: 10,
+    },
+    datepicker: {
+        marginTop: 2,
+        marginBottom: 10,
     },
 });
