@@ -157,7 +157,6 @@ const EditScreen = ({ navigation, route: { params } }) => {
                                  mode={'date'}
                                  display="default"
                                  onChange={onDateChange}
-                                 minimumDate={Date.now()}
                 />
             </View>
 
