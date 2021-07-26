@@ -7,6 +7,7 @@ import * as ImagePicker from 'expo-image-picker';
 import Firebase from '../config/firebase';
 import 'firebase/firestore';
 import 'firebase/storage'
+import { TextInput } from 'react-native-paper';
 
 const auth = Firebase.auth();
 const db = Firebase.firestore();
@@ -128,23 +129,29 @@ export default function AddScreen() {
                    style={{width: 200, height: 200}}
             />
 
-            <View style={styles.inputContainer}>
-                <Input
+            <View style={styles.inputContainer}>                
+                <TextInput
+                    label='Food name:'
+                    style={styles.input}
                     placeholder="Food"
                     autoFocus
                     type = 'text'
                     value={foodName}
                     onChangeText={(text) => setFoodName(text)}
+                    color='#ECBDB0'
                 />
-                <Input
-                    placeholder='Description'
+                <TextInput
+                    label='Summary:'
+                    style={{backgroundColor:'#ECBDB0', marginTop: 10}}
+                    color='#ECBDB0'
+                    placeholder='tell us about this incredient'
                     type ='text'
                     value={description}
                     onChangeText={(text) => setDescription(text)}
                     onSubmitEditing={add}
                 />
-                <Text>Expiration Date: </Text>
-                <DateTimePicker  style={styles.datepicker}
+                <Text >Expiration Date: </Text>
+                <DateTimePicker style={styles.datepicker}
                                  testID="dateTimePicker"
                                  value={expirationDate}
                                  mode={'date'}
@@ -155,8 +162,13 @@ export default function AddScreen() {
 
 
             </View>
-            <Button title="Pick an image" onPress={pickImage} />
-            <Button containerStyle = {styles.button} onPress={add} title="Add Food"/>
+            <Button title="Pick an image" onPress={pickImage} color="#9C27B0"
+/>
+            <Button containerStyle = {styles.button} 
+            onPress={add} 
+            title="Add Food"
+            color= '#E05A33'
+            />
 
             <View style = {{ height: 100}}/>
         </View>
@@ -197,6 +209,7 @@ const styles = StyleSheet.create({
     datepicker: {
         marginTop: 2,
         marginBottom: 10,
+        justifyContent: 'center',
     },
     preloader: {
         left: 0,
@@ -208,4 +221,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: '#ffffff',
     },
+    input:{
+        backgroundColor: '#ECBDB0',
+        borderColor:"#ECBDB0",
+        borderStyle:"solid",
+    }
 });

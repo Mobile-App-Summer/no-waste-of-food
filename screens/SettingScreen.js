@@ -55,7 +55,7 @@ export default function SettingScreen() {
       </View>
 
       <View style={styles.changeContainer}>
-      <Text style={styles.text}>Email change</Text>
+      <Text style={styles.text}>User name change</Text>
     {/* Name Change */}
       <InputField
         inputStyle={{
