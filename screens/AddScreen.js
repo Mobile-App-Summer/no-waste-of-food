@@ -150,6 +150,7 @@ export default function AddScreen() {
                                  mode={'date'}
                                  display="default"
                                  onChange={onDateChange}
+                                 minimumDate={Date.now()}
                 />
 
 
