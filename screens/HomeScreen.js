@@ -92,7 +92,7 @@ export default function HomeScreen({ navigation }) {
                         onSwipeableClose={() => markNotConsumed(item)}
 
                     >
-                        <TouchableOpacity style={styles.textContainer} onPress={() => navigation.navigate('EditScreen', item)} activeOpacity={1}>
+                        <TouchableOpacity style={styles.textContainer} onPress={() => navigation.navigate('Edit', item)} activeOpacity={1}>
                             <Image
                                 style={styles.thumbnail}
                                 source={{ uri: item.imageUrl }}

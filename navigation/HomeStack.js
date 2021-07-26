@@ -64,11 +64,14 @@ export default function HomeStack() {
       <Stack.Navigator
           initialRouteName="HomeStack"
           screenOptions={{
-            headerShown: false
+            // headerShown: false
           }}
       >
-          <Stack.Screen name="Home" component={TabNavigation}/>
-          <Stack.Screen name="EditScreen" component={EditScreen} />
+          <Stack.Screen 
+          name="Home" 
+          component={TabNavigation}
+          options= {{headerShown: false}}/>
+          <Stack.Screen name="Edit" component={EditScreen} />
       </Stack.Navigator>
   );
 }
