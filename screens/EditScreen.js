@@ -1,8 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useEffect, useState} from 'react';
-import { StyleSheet, Text, View, Image, ActivityIndicator } from 'react-native';;
+import { TouchableOpacity, Button, StyleSheet, Text, View, Image, ActivityIndicator } from 'react-native';;
 import * as ImagePicker from "expo-image-picker";
-import {Button, Input} from "react-native-elements";
+import { Input} from "react-native-elements";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Firebase from '../config/firebase';
 import 'firebase/firestore';
@@ -162,8 +162,20 @@ const EditScreen = ({ navigation, route: { params } }) => {
 
             <Button title="Pick an image" onPress={pickImage} />
             <Button containerStyle = {styles.button} onPress={update} title="Update Food"/>
-            <Button containerStyle = {styles.button} onPress={() => deleteItem()} title="Delete Food"/>
-            <Button containerStyle = {styles.button} onPress={() => navigation.navigate('Home')} title="Back to Home Screen"/>
+            <Button containerStyle = {styles.button} 
+            onPress={() => deleteItem()} 
+            title="Delete Food"
+            color="#841584"
+            />
+            <View style={{marginTop:15}}>
+            {/* <TouchableOpacity
+            style={styles.button}
+            title="Press me"
+            color="#f194ff"
+            onPress={() => Alert.alert('Button with adjusted color pressed')}>
+            </TouchableOpacity> */}
+
+            </View>
 
             <View style = {{ height: 100}}/>
         </View>
@@ -202,6 +214,7 @@ const styles = StyleSheet.create({
     },
     button: {
         marginTop: 10,
+        backgroundColor: "yellow",
     },
     datepicker: {
         marginTop: 2,
