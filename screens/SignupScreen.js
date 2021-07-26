@@ -31,7 +31,12 @@ export default function SignupScreen({ navigation }) {
   const onHandleSignup = async () => {
     try {
       if (email !== '' && password !== '') {
-        await auth.createUserWithEmailAndPassword(email, password);
+        await auth.createUserWithEmailAndPassword(email, password)
+            .then(res => {
+                res.user.updateProfile({
+                    displayName: userName
+                })
+            });
       }
     } catch (error) {
       setSignupError(error.message);

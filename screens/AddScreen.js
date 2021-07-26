@@ -162,7 +162,7 @@ export default function AddScreen() {
 
 
             </View>
-            <Button title="Pick an image" onPress={pickImage} color="#9C27B0"
+            <Button color="#f194ff" title="Pick an image" onPress={pickImage}
 />
             <Button containerStyle = {styles.button} 
             onPress={add} 
