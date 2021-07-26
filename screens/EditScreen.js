@@ -1,26 +1,25 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState, useEffect } from 'react';
-import {ActivityIndicator, StyleSheet, Text, View} from 'react-native';
-import { Button, Input, Image } from 'react-native-elements';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import * as ImagePicker from 'expo-image-picker';
+import React, {useEffect, useState} from 'react';
+import { StyleSheet, Text, View, Image, ActivityIndicator } from 'react-native';;
+import * as ImagePicker from "expo-image-picker";
+import {Button, Input} from "react-native-elements";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import Firebase from '../config/firebase';
 import 'firebase/firestore';
 import 'firebase/storage'
 
-const auth = Firebase.auth();
 const db = Firebase.firestore();
+const auth = Firebase.auth();
 const storage = Firebase.storage();
 
-export default function AddScreen() {
+const EditScreen = ({ navigation, route: { params } }) => {
     const [loading, setLoading] = useState(false);
-    const [foodName, setFoodName] = useState('');
-    const [description, setDescription] = useState('');
-    const [expirationDate, setExpirationDate] = useState(new Date())
+    const [foodName, setFoodName] = useState(params?.foodName);
+    const [description, setDescription] = useState(params?.description);
+    const [expirationDate, setExpirationDate] = useState(params?.expiry.toDate())
     const [image, setImage] = useState('');
-    const DEFAULT_IMAGE = 'https://firebasestorage.googleapis.com/v0/b/nowaste-9ddd0.appspot.com/o/default.png?alt=media';
 
-    const add = async() => {
+    const update = async() => {
         if (foodName === '') {
             alert('Food needs a name!')
             return;
@@ -32,42 +31,37 @@ export default function AddScreen() {
         }
         try {
             setLoading(true)
-            const ref = await db.collection('foodTrackers').doc(uid).collection('foods').doc();
-            const id = ref.id;
+            const id = params.id
+            const ref = await db.collection('foodTrackers').doc(uid).collection('foods').doc(id);
 
             if (image !== '') {
                 uploadImage(image, id)
-                    .then(response => {
+                    .then(() => {
                         console.log('image uploaded');
-                        const uri = `https://firebasestorage.googleapis.com/v0/b/nowaste-9ddd0.appspot.com/o/${id}?alt=media`
-                        saveToFireStore(id, ref, uri)
+                        const uri = `https://firebasestorage.googleapis.com/v0/b/nowaste-9ddd0.appspot.com/o/${id}?alt=media&${Date.now()}`;
+                        saveToFireStore(id, ref, uri);
                     }).catch(error => alert(error.message()));
-
             } else {
-                await saveToFireStore(id, ref, DEFAULT_IMAGE)
+                await saveToFireStore(id, ref, params.imageUrl);
             }
         } catch (error) {
-            setLoading(false)
             alert(error.message());
+            setLoading(false)
         }
     }
 
     const saveToFireStore = async (id, ref, imageUrl) => {
         ref.set({
-            id,
-            foodName,
-            description,
-            imageUrl: imageUrl,
-            expiry: expirationDate,
-            isConsumed: false,
-        })
+                foodName,
+                description,
+                imageUrl: imageUrl,
+                expiry: expirationDate,
+            }, { merge: true }
+        )
             .then(() => {
-                setFoodName('')
-                setDescription('')
-                setImage('')
-                setExpirationDate(new Date())
                 setLoading(false);
-                alert(`${foodName} added`)
+                alert(`${foodName} updated`);
+                navigation.navigate('Home');
             })
             .catch(error => {
                 setLoading(false);
@@ -97,7 +91,6 @@ export default function AddScreen() {
             allowsEditing:true,
             quality: 0.5
         }).then(result => {
-            console.log(result);
             if (!result.cancelled) {
                 setImage(result.uri);
             }
@@ -109,7 +102,21 @@ export default function AddScreen() {
         const blob = await response.blob();
         let ref = storage.ref().child(imageName);
         return ref.put(blob);
-    }
+    };
+
+    const deleteItem = async () => {
+        db.collection('foodTrackers')
+            .doc(auth.currentUser.uid)
+            .collection('foods')
+            .doc(params.id)
+            .delete()
+            .then(response => {
+                alert(`${foodName} deleted`)
+                navigation.navigate('Home');
+            })
+            .catch(error => alert(error.message()));
+    };
+
 
     if (loading) {
         return (
@@ -119,18 +126,18 @@ export default function AddScreen() {
         );
     }
 
+
     return (
         <View style={styles.container}>
             <StatusBar style='dark-content'  />
-            <Text  style={styles.text}>Add Food </Text>
+            <Text  style={styles.text}>Update {params.foodName}  </Text>
 
-            <Image source = {{uri:  image !== '' ? image : DEFAULT_IMAGE}}
+            <Image source = {{uri:  image !== '' ? image : params?.imageUrl}}
                    style={{width: 200, height: 200}}
             />
 
             <View style={styles.inputContainer}>
                 <Input
-                    placeholder="Food"
                     autoFocus
                     type = 'text'
                     value={foodName}
@@ -141,7 +148,7 @@ export default function AddScreen() {
                     type ='text'
                     value={description}
                     onChangeText={(text) => setDescription(text)}
-                    onSubmitEditing={add}
+                    onSubmitEditing={update}
                 />
                 <Text>Expiration Date: </Text>
                 <DateTimePicker  style={styles.datepicker}
@@ -150,17 +157,21 @@ export default function AddScreen() {
                                  mode={'date'}
                                  display="default"
                                  onChange={onDateChange}
+                                 minimumDate={Date.now()}
                 />
-
-
             </View>
+
             <Button title="Pick an image" onPress={pickImage} />
-            <Button containerStyle = {styles.button} onPress={add} title="Add Food"/>
+            <Button containerStyle = {styles.button} onPress={update} title="Update Food"/>
+            <Button containerStyle = {styles.button} onPress={() => deleteItem()} title="Delete Food"/>
+            <Button containerStyle = {styles.button} onPress={() => navigation.navigate('Home')} title="Back to Home Screen"/>
 
             <View style = {{ height: 100}}/>
         </View>
     );
 }
+
+export default EditScreen;
 
 const styles = StyleSheet.create({
     container: {
