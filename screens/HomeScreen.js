@@ -3,6 +3,7 @@ import React, {useEffect, useState} from 'react';
 import { StyleSheet, Text, View, Image, FlatList, SafeAreaView, TouchableOpacity  } from 'react-native';
 import {Swipeable} from 'react-native-gesture-handler'
 import Firebase from '../config/firebase';
+import { Icon } from 'react-native-elements'
 import 'firebase/firestore';
 import EditScreen from "./EditScreen";
 
@@ -54,6 +55,20 @@ export default function HomeScreen({navigation}) {
             })
     }
 
+    const faceType = (expiration) => {
+        const expirationInMicroseconds = expiration.seconds * 1000;
+        const numberOfDaysForMehFace = 7;
+        const today = Date.now();
+        const mehFace = today + ( 3600 * 24 * 1000 * numberOfDaysForMehFace)
+
+        if  (expirationInMicroseconds <= today) {
+            return {face: 'frown-o', color:'#E05A33'};
+        } else if (expirationInMicroseconds <= mehFace ) {
+            return {face: 'meh-o', color:'#ffa500'};
+        }
+        return {face: 'smile-o', color:'#00b300'};
+    }
+
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar style='dark-content' />
@@ -87,6 +102,13 @@ export default function HomeScreen({navigation}) {
                                 ]}>
                                 {item.foodName}  {item.description} {item.expiry?.toDate()?.toDateString()}
                             </Text>
+                            <Icon
+
+                                name={faceType(item.expiry).face}
+                                type='font-awesome'
+                                color={faceType(item.expiry).color}
+                                size={35}
+                            />
                         </TouchableOpacity>
                     </Swipeable>
                 )}
