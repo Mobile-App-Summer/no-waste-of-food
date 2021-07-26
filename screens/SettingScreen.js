@@ -199,7 +199,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 
-  changeContainer: {
-    marginTop: 40,
-  }
 });
