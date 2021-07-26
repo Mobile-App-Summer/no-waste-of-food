@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
-import React, {useEffect, useState} from 'react';
-import { StyleSheet, Text, View, Image, FlatList, SafeAreaView, TouchableOpacity  } from 'react-native';
-import {Swipeable} from 'react-native-gesture-handler'
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, Image, FlatList, SafeAreaView, TouchableOpacity } from 'react-native';
+import { Swipeable } from 'react-native-gesture-handler'
 import Firebase from '../config/firebase';
 import { Icon } from 'react-native-elements'
 import 'firebase/firestore';
@@ -10,7 +10,7 @@ import EditScreen from "./EditScreen";
 const db = Firebase.firestore();
 const auth = Firebase.auth();
 
-export default function HomeScreen({navigation}) {
+export default function HomeScreen({ navigation }) {
     const [foodItems, setFoodItems] = useState([])
 
     useEffect(() => {
@@ -29,8 +29,8 @@ export default function HomeScreen({navigation}) {
         return () => unsubscribe();
     }, []);
 
-    const LeftAction = ({item}) => {
-        return  (<View style={styles.leftAction}>
+    const LeftAction = ({ item }) => {
+        return (<View style={styles.leftAction}>
             <Text style={styles.textAction}> Consumed: {item.foodName}</Text>
         </View>);
     }
@@ -59,14 +59,14 @@ export default function HomeScreen({navigation}) {
         const expirationInMicroseconds = expiration.seconds * 1000;
         const numberOfDaysForMehFace = 7;
         const today = Date.now();
-        const mehFace = today + ( 3600 * 24 * 1000 * numberOfDaysForMehFace)
+        const mehFace = today + (3600 * 24 * 1000 * numberOfDaysForMehFace)
 
-        if  (expirationInMicroseconds <= today) {
-            return {face: 'frown-o', color:'#E05A33'};
-        } else if (expirationInMicroseconds <= mehFace ) {
-            return {face: 'meh-o', color:'#ffa500'};
+        if (expirationInMicroseconds <= today) {
+            return { face: 'frown-o', color: '#E05A33' };
+        } else if (expirationInMicroseconds <= mehFace) {
+            return { face: 'meh-o', color: '#ffa500' };
         }
-        return {face: 'smile-o', color:'#00b300'};
+        return { face: 'smile-o', color: '#00b300' };
     }
 
     return (
@@ -80,12 +80,14 @@ export default function HomeScreen({navigation}) {
                 />
             </View>
             {/* LOGO */}
+
             <FlatList
+            style={styles.flatlist}
                 data={foodItems}
                 keyExtractor={item => item.id}
                 renderItem={({ item, index }) => (
                     <Swipeable
-                        renderLeftActions={() => <LeftAction item={item}/>}
+                        renderLeftActions={() => <LeftAction item={item} />}
                         onSwipeableLeftOpen={() => markConsumed(item)}
                         onSwipeableClose={() => markNotConsumed(item)}
 
@@ -93,15 +95,24 @@ export default function HomeScreen({navigation}) {
                         <TouchableOpacity style={styles.textContainer} onPress={() => navigation.navigate('EditScreen', item)} activeOpacity={1}>
                             <Image
                                 style={styles.thumbnail}
-                                source={{uri: item.imageUrl}}
+                                source={{ uri: item.imageUrl }}
                             />
-                            <Text
-                                style={[
-                                    styles.item,
-                                    { textDecorationLine: item.isConsumed ?  "line-through" : "none" }
-                                ]}>
-                                {item.foodName}  {item.description} {item.expiry?.toDate()?.toDateString()}
-                            </Text>
+                            <View style={styles.inside}>
+                                <Text
+                                    style={[
+                                        styles.item,
+                                        { textDecorationLine: item.isConsumed ? "line-through" : "none" }
+                                    ]}>
+                                    {item.foodName}
+                                </Text>
+                                <Text style={styles.description}>
+                                    {item.description}
+                                </Text>
+                                <Text style={styles.date}>
+                                    {item.expiry?.toDate()?.toDateString()}
+                                </Text>
+                            </View>
+                            <View style={styles.smile}>
                             <Icon
 
                                 name={faceType(item.expiry).face}
@@ -109,6 +120,7 @@ export default function HomeScreen({navigation}) {
                                 color={faceType(item.expiry).color}
                                 size={35}
                             />
+                            </View>
                         </TouchableOpacity>
                     </Swipeable>
                 )}
@@ -138,19 +150,42 @@ const styles = StyleSheet.create({
         backgroundColor: "black",
         color: "#05db6a"
     },
+    flatlist:{
+        marginTop: 20,
+    },
     item: {
-        padding: 15,
+        // padding: 15,
+        marginLeft: 10,
         borderBottomWidth: 1,
-        borderBottomColor: "#F3F3F3"
+        borderBottomColor: "#F3F3F3",
+    },
+    inside: {
+        marginRight: 20,
+        marginLeft: 20,
+        width: 230,
+
+    },  
+
+    description: {
+        marginLeft: 10,
+        borderBottomWidth: 1,
+        borderBottomColor: "#F3F3F3",
+    },
+    date: {
+        marginLeft: 10,
+        borderBottomWidth: 1,
+        borderBottomColor: "#F3F3F3",
+        color: '#E05A33'
     },
     text: {
         fontSize: 16,
         fontWeight: 'normal',
-        color: '#fff'
+        color: '#fff',
+
     },
     imageContainer: {
-        alignItems:'center',
-        marginTop: 25
+        alignItems: 'center',
+        marginTop: 25,
     },
 
     tinyLogo: {
@@ -160,8 +195,8 @@ const styles = StyleSheet.create({
     thumbnail: {
         width: 50,
         height: 50,
-        marginLeft: 12,
-        marginVertical: 5
+        marginLeft: 18,
+        marginVertical: 5,
     },
     leftAction: {
         backgroundColor: 'red',
@@ -175,9 +210,22 @@ const styles = StyleSheet.create({
         width: 400,
         flexDirection: 'row',
         alignItems: "center",
+        flex: 1,
+        alignItems: 'center',
+        width: 270,
+        marginTop: 10,
 
     },
     textAction: {
         color: '#fff',
+
     },
+
+    listContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        flex: 1,
+        backgroundColor: 'yellow',
+
+    }
 });
