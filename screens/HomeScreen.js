@@ -78,7 +78,6 @@ export default function HomeScreen({navigation}) {
                     style={styles.tinyLogo}
                     source={require('../assets/logo.png')}
                 />
-                <Text>Hello {auth.currentUser.displayName}</Text>
             </View>
             {/* LOGO */}
             <FlatList

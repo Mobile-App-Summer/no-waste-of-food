@@ -43,6 +43,7 @@ export default function SignupScreen({ navigation }) {
     }
   };
 
+  
   return (
     <View style={styles.container}>
       <StatusBar style='dark-content' />
