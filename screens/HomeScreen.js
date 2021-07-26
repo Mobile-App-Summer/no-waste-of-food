@@ -1,18 +1,17 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useEffect, useState} from 'react';
-import { StyleSheet, Text, View, Image, FlatList, SafeAreaView  } from 'react-native';
-import Swipeout from "react-native-swipeout";
-import { IconButton } from '../components';
+import { StyleSheet, Text, View, Image, FlatList, SafeAreaView, TouchableOpacity  } from 'react-native';
 import {Swipeable} from 'react-native-gesture-handler'
 import Firebase from '../config/firebase';
 import 'firebase/firestore';
+import EditScreen from "./EditScreen";
 
 const db = Firebase.firestore();
-
 const auth = Firebase.auth();
 
-export default function HomeScreen() {
+export default function HomeScreen({navigation}) {
     const [foodItems, setFoodItems] = useState([])
+
     useEffect(() => {
         const unsubscribe = db.collection('foodTrackers')
             .doc(auth.currentUser.uid)
@@ -29,10 +28,10 @@ export default function HomeScreen() {
         return () => unsubscribe();
     }, []);
 
-    const LeftAction = () => {
-       return  (<View style={styles.leftAction}>
-            <Text style={styles.textAction}> Consumed</Text>
-        </View>)
+    const LeftAction = ({item}) => {
+        return  (<View style={styles.leftAction}>
+            <Text style={styles.textAction}> Consumed: {item.foodName}</Text>
+        </View>);
     }
 
     const markConsumed = (item) => {
@@ -71,11 +70,12 @@ export default function HomeScreen() {
                 keyExtractor={item => item.id}
                 renderItem={({ item, index }) => (
                     <Swipeable
-                        renderLeftActions={LeftAction}
+                        renderLeftActions={() => <LeftAction item={item}/>}
                         onSwipeableLeftOpen={() => markConsumed(item)}
                         onSwipeableClose={() => markNotConsumed(item)}
+
                     >
-                        <View style={styles.textContainer}>
+                        <TouchableOpacity style={styles.textContainer} onPress={() => navigation.navigate('EditScreen', item)} activeOpacity={1}>
                             <Image
                                 style={styles.thumbnail}
                                 source={{uri: item.imageUrl}}
@@ -87,7 +87,7 @@ export default function HomeScreen() {
                                 ]}>
                                 {item.foodName}  {item.description} {item.expiry?.toDate()?.toDateString()}
                             </Text>
-                        </View>
+                        </TouchableOpacity>
                     </Swipeable>
                 )}
             />
