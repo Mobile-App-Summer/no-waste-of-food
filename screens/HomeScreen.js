@@ -5,7 +5,6 @@ import { Swipeable } from 'react-native-gesture-handler'
 import Firebase from '../config/firebase';
 import { Icon } from 'react-native-elements'
 import 'firebase/firestore';
-import EditScreen from "./EditScreen";
 
 const db = Firebase.firestore();
 const auth = Firebase.auth();
@@ -25,7 +24,6 @@ export default function HomeScreen({ navigation }) {
                 });
                 setFoodItems(list);
             });
-
         return () => unsubscribe();
     }, []);
 
@@ -151,7 +149,7 @@ const styles = StyleSheet.create({
         color: "#05db6a"
     },
     flatlist:{
-        marginTop: 20,
+        marginTop: 30,
     },
     item: {
         // padding: 15,
@@ -207,14 +205,10 @@ const styles = StyleSheet.create({
     },
     textContainer: {
         backgroundColor: '#fff',
-        width: 400,
         flexDirection: 'row',
-        alignItems: "center",
         flex: 1,
         alignItems: 'center',
-        width: 270,
-        marginTop: 10,
-
+        width: 400,
     },
     textAction: {
         color: '#fff',

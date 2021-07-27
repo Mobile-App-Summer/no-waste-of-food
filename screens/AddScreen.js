@@ -133,7 +133,6 @@ export default function AddScreen() {
                 <TextInput
                     label='Food name:'
                     style={styles.input}
-                    placeholder="Food"
                     autoFocus
                     type = 'text'
                     value={foodName}
@@ -144,7 +143,7 @@ export default function AddScreen() {
                     label='Summary:'
                     style={{backgroundColor:'#ECBDB0', marginTop: 10}}
                     color='#ECBDB0'
-                    placeholder='tell us about this incredient'
+                    placeholder='tell us about this ingredient'
                     type ='text'
                     value={description}
                     onChangeText={(text) => setDescription(text)}
