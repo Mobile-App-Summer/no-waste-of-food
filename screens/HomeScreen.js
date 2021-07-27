@@ -29,7 +29,7 @@ export default function HomeScreen({ navigation }) {
 
     const LeftAction = ({ item }) => {
         return (<View style={styles.leftAction}>
-            <Text style={styles.textAction}> Consumed: {item.foodName}</Text>
+            <Text style={styles.textAction}> Consumed</Text>
         </View>);
     }
 
@@ -199,22 +199,21 @@ const styles = StyleSheet.create({
         marginVertical: 5,
     },
     leftAction: {
-        backgroundColor: 'red',
+        backgroundColor: '#E05A33',
         alignItems: "stretch",
-        width: 400,
+        width: 100,
         paddingHorizontal: 12,
         justifyContent: 'center',
+
     },
     textContainer: {
         backgroundColor: '#fff',
-        width: '90%',
         flexDirection: 'row',
         flex: 1,
         alignItems: 'center',
-        marginTop: 10,
         borderColor: '#ECBDB0',
         borderBottomWidth: 1,
-        marginLeft: 15
+        marginLeft: 15,
     },
     textAction: {
         color: '#fff',
