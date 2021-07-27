@@ -1,8 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { TouchableOpacity, Button, StyleSheet, Text, View, Image, ActivityIndicator } from 'react-native';;
 import * as ImagePicker from "expo-image-picker";
-import { Input} from "react-native-elements";
+import { Input } from "react-native-elements";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Firebase from '../config/firebase';
 import 'firebase/firestore';
@@ -19,7 +19,7 @@ const EditScreen = ({ navigation, route: { params } }) => {
     const [expirationDate, setExpirationDate] = useState(params?.expiry.toDate())
     const [image, setImage] = useState('');
 
-    const update = async() => {
+    const update = async () => {
         if (foodName === '') {
             alert('Food needs a name!')
             return;
@@ -52,11 +52,11 @@ const EditScreen = ({ navigation, route: { params } }) => {
 
     const saveToFireStore = async (id, ref, imageUrl) => {
         ref.set({
-                foodName,
-                description,
-                imageUrl: imageUrl,
-                expiry: expirationDate,
-            }, { merge: true }
+            foodName,
+            description,
+            imageUrl: imageUrl,
+            expiry: expirationDate,
+        }, { merge: true }
         )
             .then(() => {
                 setLoading(false);
@@ -88,7 +88,7 @@ const EditScreen = ({ navigation, route: { params } }) => {
     const pickImage = async () => {
         ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            allowsEditing:true,
+            allowsEditing: true,
             quality: 0.5
         }).then(result => {
             if (!result.cancelled) {
@@ -97,7 +97,7 @@ const EditScreen = ({ navigation, route: { params } }) => {
         }).catch(error => alert(error.message()));
     };
 
-    const uploadImage = async(uri, imageName) => {
+    const uploadImage = async (uri, imageName) => {
         const response = await fetch(uri);
         const blob = await response.blob();
         let ref = storage.ref().child(imageName);
@@ -121,7 +121,7 @@ const EditScreen = ({ navigation, route: { params } }) => {
     if (loading) {
         return (
             <View style={styles.preloader}>
-                <ActivityIndicator size="large" color="#9E9E9E"/>
+                <ActivityIndicator size="large" color="#9E9E9E" />
             </View>
         );
     }
@@ -129,55 +129,62 @@ const EditScreen = ({ navigation, route: { params } }) => {
 
     return (
         <View style={styles.container}>
-            <StatusBar style='dark-content'  />
-            <Text  style={styles.text}>Update {params.foodName}  </Text>
+            <StatusBar style='dark-content' />
+            <Text style={styles.text}>Update {params.foodName}  </Text>
 
-            <Image source = {{uri:  image !== '' ? image : params?.imageUrl}}
-                   style={{width: 200, height: 200}}
+            <Image source={{ uri: image !== '' ? image : params?.imageUrl }}
+                style={{ width: 200, height: 200 }}
             />
 
             <View style={styles.inputContainer}>
                 <Input
                     autoFocus
-                    type = 'text'
+                    type='text'
                     value={foodName}
                     onChangeText={(text) => setFoodName(text)}
                 />
                 <Input
                     placeholder='Description'
-                    type ='text'
+                    type='text'
                     value={description}
                     onChangeText={(text) => setDescription(text)}
                     onSubmitEditing={update}
-                />
-                <Text>Expiration Date: </Text>
-                <DateTimePicker  style={styles.datepicker}
-                                 testID="dateTimePicker"
-                                 value={expirationDate}
-                                 mode={'date'}
-                                 display="default"
-                                 onChange={onDateChange}
-                />
+                />                    
+                <View style={styles.dateContainer}>
+                <Text style={{fontSize:18}}>Expiration Date: </Text>
+
+                    <DateTimePicker style={styles.datepicker}
+                        textColor="red"
+                        testID="dateTimePicker"
+                        value={expirationDate}
+                        mode={'date'}
+                        display="default"
+                        onChange={onDateChange}
+                    />
+                </View>
+            </View>
+            <View style={styles.buttonContainer}>
+                <TouchableOpacity
+                    style={styles.button1}
+                    onPress={pickImage}>
+                    <Text style={{ color: 'white' }}> Pick an image </Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                    style={styles.button1}
+                    onPress={update}>
+                    <Text style={{ color: 'white' }}> Update Food </Text>
+                </TouchableOpacity>
             </View>
 
-            <Button title="Pick an image" onPress={pickImage} />
-            <Button containerStyle = {styles.button} onPress={update} title="Update Food"/>
-            <Button containerStyle = {styles.button} 
-            onPress={() => deleteItem()} 
-            title="Delete Food"
-            color="#841584"
-            />
-            <View style={{marginTop:15}}>
-            {/* <TouchableOpacity
-            style={styles.button}
-            title="Press me"
-            color="#f194ff"
-            onPress={() => Alert.alert('Button with adjusted color pressed')}>
-            </TouchableOpacity> */}
+            <TouchableOpacity
+                style={styles.button}
+                onPress={() => deleteItem()}
+            >
+                <Text style={{ color: 'white' }}> Delete Food </Text>
+            </TouchableOpacity>
 
-            </View>
-
-            <View style = {{ height: 100}}/>
+            <View style={{ height: 100 }} />
         </View>
     );
 }
@@ -189,10 +196,10 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: 'white',
         paddingTop: 50,
-        alignItems : 'center',
+        alignItems: 'center',
         justifyContent: 'center',
     },
-    inputContainer:{
+    inputContainer: {
         width: 300,
         marginTop: 10,
     },
@@ -205,20 +212,46 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 24,
         fontWeight: '600',
-        color: '#000'
+        color: '#000',
     },
     text: {
         fontSize: 16,
         fontWeight: 'normal',
-        color: '#000'
+        color: '#000',
     },
     button: {
         marginTop: 10,
-        backgroundColor: "yellow",
+        padding: 10,
+        backgroundColor: '#E05A33',
+        color: 'white',
+        alignItems: 'center',
+        width: 130,
+
     },
+    button1: {
+        marginTop: 10,
+        marginRight: 15,
+        marginLeft: 15,
+        padding: 10,
+        backgroundColor: '#E05A33',
+        color: 'white',
+        alignItems: 'center',
+        width: 130,
+    },
+    buttonContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+    },
+    dateContainer:{
+        justifyContent: 'space-around',
+        flexDirection:'row',
+        alignItems:'center',
+    },
+
     datepicker: {
-        marginTop: 2,
+        marginTop: 7,
         marginBottom: 10,
+        width: 130,
     },
     preloader: {
         left: 0,

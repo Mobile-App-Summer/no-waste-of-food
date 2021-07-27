@@ -82,7 +82,7 @@ export default function HomeScreen({ navigation }) {
             {/* LOGO */}
 
             <FlatList
-            style={styles.flatlist}
+                style={styles.flatlist}
                 data={foodItems}
                 keyExtractor={item => item.id}
                 renderItem={({ item, index }) => (
@@ -113,15 +113,15 @@ export default function HomeScreen({ navigation }) {
                                 </Text>
                             </View>
                             <View style={styles.smile}>
-                            <Icon
-
-                                name={faceType(item.expiry).face}
-                                type='font-awesome'
-                                color={faceType(item.expiry).color}
-                                size={35}
-                            />
+                                <Icon
+                                    name={faceType(item.expiry).face}
+                                    type='font-awesome'
+                                    color={faceType(item.expiry).color}
+                                    size={35}
+                                />
                             </View>
                         </TouchableOpacity>
+
                     </Swipeable>
                 )}
             />
@@ -148,23 +148,22 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: "bold",
         backgroundColor: "black",
-        color: "#05db6a"
+        color: "#05db6a",
     },
-    flatlist:{
+    flatlist: {
         marginTop: 20,
     },
     item: {
         // padding: 15,
+        fontWeight: 'bold',
         marginLeft: 10,
-        borderBottomWidth: 1,
-        borderBottomColor: "#F3F3F3",
     },
     inside: {
-        marginRight: 20,
-        marginLeft: 20,
+        marginRight: 5,
+        marginLeft: 5,
         width: 230,
 
-    },  
+    },
 
     description: {
         marginLeft: 10,
@@ -173,8 +172,7 @@ const styles = StyleSheet.create({
     },
     date: {
         marginLeft: 10,
-        borderBottomWidth: 1,
-        borderBottomColor: "#F3F3F3",
+        marginBottom: 10,
         color: '#E05A33'
     },
     text: {
@@ -182,6 +180,10 @@ const styles = StyleSheet.create({
         fontWeight: 'normal',
         color: '#fff',
 
+    },
+    smile:{
+        display: 'flex',
+        marginLeft: 10,
     },
     imageContainer: {
         alignItems: 'center',
@@ -195,7 +197,7 @@ const styles = StyleSheet.create({
     thumbnail: {
         width: 50,
         height: 50,
-        marginLeft: 18,
+        marginLeft: 5,
         marginVertical: 5,
     },
     leftAction: {
@@ -207,18 +209,17 @@ const styles = StyleSheet.create({
     },
     textContainer: {
         backgroundColor: '#fff',
-        width: 400,
+        width: '90%',
         flexDirection: 'row',
-        alignItems: "center",
         flex: 1,
         alignItems: 'center',
-        width: 270,
         marginTop: 10,
-
+        borderColor: '#ECBDB0',
+        borderBottomWidth: 1,
+        marginLeft: 15
     },
     textAction: {
         color: '#fff',
-
     },
 
     listContainer: {
