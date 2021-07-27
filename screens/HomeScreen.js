@@ -5,7 +5,6 @@ import { Swipeable } from 'react-native-gesture-handler'
 import Firebase from '../config/firebase';
 import { Icon } from 'react-native-elements'
 import 'firebase/firestore';
-import EditScreen from "./EditScreen";
 
 const db = Firebase.firestore();
 const auth = Firebase.auth();
@@ -25,7 +24,6 @@ export default function HomeScreen({ navigation }) {
                 });
                 setFoodItems(list);
             });
-
         return () => unsubscribe();
     }, []);
 

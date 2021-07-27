@@ -58,8 +58,6 @@ export default function SettingScreen() {
         .catch(error => alert(error.message));
     }
   }
-  console.log(auth.currentUser)
-
 
   return (
     <View style={styles.container}>

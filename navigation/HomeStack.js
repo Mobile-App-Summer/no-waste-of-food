@@ -10,6 +10,8 @@ import { AntDesign } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons'; 
 import { Ionicons } from '@expo/vector-icons';
 import EditScreen from "../screens/EditScreen";
+import ChannelCreation from "../screens/ChannelCreation";
+import Channel from "../screens/Channel";
 
 const Stack = createStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
@@ -62,16 +64,18 @@ const TabNavigation = () =>  {
 export default function HomeStack() {
   return (
       <Stack.Navigator
-          initialRouteName="HomeStack"
+          initialRouteName="Tab Navigation"
           screenOptions={{
             // headerShown: false
           }}
       >
-          <Stack.Screen 
+          <Stack.Screen
           name="Home" 
           component={TabNavigation}
           options= {{headerShown: false}}/>
           <Stack.Screen name="Edit" component={EditScreen} />
+          <Stack.Screen name="Channel Creation" component={ChannelCreation} />
+          <Stack.Screen name="Channel" component={Channel} />
       </Stack.Navigator>
   );
 }
