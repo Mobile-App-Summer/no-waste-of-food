@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
-import {ActivityIndicator, StyleSheet, Text, View} from 'react-native';
+import {ActivityIndicator, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import { Button, Input, Image } from 'react-native-elements';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import * as ImagePicker from 'expo-image-picker';
@@ -150,7 +150,9 @@ export default function AddScreen() {
                     onChangeText={(text) => setDescription(text)}
                     onSubmitEditing={add}
                 />
-                <Text >Expiration Date: </Text>
+
+                <View style={styles.dateContainer}>
+                <Text style={{fontSize:18}}>Expiration Date: </Text>
                 <DateTimePicker style={styles.datepicker}
                                  testID="dateTimePicker"
                                  value={expirationDate}
@@ -159,17 +161,20 @@ export default function AddScreen() {
                                  onChange={onDateChange}
                                  minimumDate={Date.now()}
                 />
-
-
+                </View>
             </View>
-            <Button color="#f194ff" title="Pick an image" onPress={pickImage}
-/>
-            <Button containerStyle = {styles.button} 
-            onPress={add} 
-            title="Add Food"
-            color= '#E05A33'
-            />
-
+            <View style={styles.buttonContainer}>
+            <TouchableOpacity
+                    style={styles.button1}
+                    onPress={pickImage}>
+                    <Text style={{ color: 'white' }}> Pick an image </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.button1}
+                    onPress={add}>
+                    <Text style={{ color: 'white' }}> Add Food </Text>
+                </TouchableOpacity>             
+            </View>
             <View style = {{ height: 100}}/>
         </View>
     );
@@ -207,9 +212,9 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     datepicker: {
-        marginTop: 2,
+        marginTop: 7,
         marginBottom: 10,
-        justifyContent: 'center',
+        width: 130,
     },
     preloader: {
         left: 0,
@@ -225,5 +230,24 @@ const styles = StyleSheet.create({
         backgroundColor: '#ECBDB0',
         borderColor:"#ECBDB0",
         borderStyle:"solid",
-    }
+    },
+    dateContainer:{
+        justifyContent: 'space-around',
+        flexDirection:'row',
+        alignItems:'center',
+    },
+    buttonContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+    },
+    button1: {
+        marginTop: 10,
+        marginRight: 15,
+        marginLeft: 15,
+        padding: 10,
+        backgroundColor: '#E05A33',
+        color: 'white',
+        alignItems: 'center',
+        width: 130,
+    },
 });
