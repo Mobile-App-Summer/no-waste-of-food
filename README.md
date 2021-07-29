@@ -19,7 +19,7 @@ To run this project, install it locally using react-native:
 $ cd ./no-waste-of-food
 $ yarn install or npm install
 $ yarn start or expo start
-and press a to android i to ios w to web
+and press a to android i to ios
 ```
 
 ## Teammates
