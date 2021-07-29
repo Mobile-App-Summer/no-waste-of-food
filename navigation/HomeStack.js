@@ -66,15 +66,16 @@ export default function HomeStack() {
       <Stack.Navigator
           initialRouteName="Tab Navigation"
           screenOptions={{
-            // headerShown: false
+            headerTintColor: '#E05A33'
           }}
       >
           <Stack.Screen
           name="Home" 
           component={TabNavigation}
           options= {{ headerShown: false}}/>
-          <Stack.Screen name="Edit" component={EditScreen} options={{headerStyle : {
-              backgroundColor: 'white', color:'black'},}}/>
+          <Stack.Screen name="Edit" component={EditScreen} 
+          options={{headerStyle : {
+              backgroundColor: 'white'},}}/>
           <Stack.Screen name="Channel Creation" component={ChannelCreation} />
           <Stack.Screen name="Channel" component={Channel} />
       </Stack.Navigator>
