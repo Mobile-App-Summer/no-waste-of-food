@@ -147,8 +147,8 @@ export default function SettingScreen() {
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           onPress={update}
-          style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#E05A33', height: 45, width: 200, color: 'white' }}>
-          <Text style={{ fontSize: 12, }}>Submit</Text>
+          style={styles.submit}>
+          <Text style={{ color: 'white' }}> Submit </Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -191,10 +191,18 @@ const styles = StyleSheet.create({
 
   buttonContainer: {
     fontSize: 25,
-    marginTop: 30,
+    marginTop: 15,
     color: 'white',
     alignItems: 'center',
     justifyContent: 'center',
   },
 
+  submit:{
+    alignItems: 'center', 
+    justifyContent: 'center', 
+    backgroundColor: '#E05A33', 
+    height: 45, 
+    width: 200, 
+    color: 'white',
+  }
 });
