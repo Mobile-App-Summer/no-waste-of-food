@@ -13,6 +13,7 @@ const auth = Firebase.auth();
 const db = Firebase.firestore();
 const storage = Firebase.storage();
 
+
 export default function AddScreen() {
     const [loading, setLoading] = useState(false);
     const [foodName, setFoodName] = useState('');

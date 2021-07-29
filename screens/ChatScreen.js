@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderBottomWidth: 1,
-    borderColor: 'orange',
+    borderColor: '#E05A33',
     padding: 15,
   },
   textContainer: {

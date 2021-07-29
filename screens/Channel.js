@@ -15,7 +15,7 @@ const SendButton = props => {
             disabled={!props.text}
             containerStyle={{
                 width: 40,
-                height: 40,
+                height: 50,
                 alignItems: 'center',
                 justifyContent: 'center',
                 marginHorizontal: 3,
@@ -25,7 +25,7 @@ const SendButton = props => {
                 name="send"
                 size={24}
                 color={
-                    props.text ? 'green' : 'grey'
+                    props.text ? '#E05A33' : 'grey'
                 }
             />
         </Send>

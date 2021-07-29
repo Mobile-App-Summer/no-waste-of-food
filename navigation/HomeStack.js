@@ -72,8 +72,9 @@ export default function HomeStack() {
           <Stack.Screen
           name="Home" 
           component={TabNavigation}
-          options= {{headerShown: false}}/>
-          <Stack.Screen name="Edit" component={EditScreen} />
+          options= {{ headerShown: false}}/>
+          <Stack.Screen name="Edit" component={EditScreen} options={{headerStyle : {
+              backgroundColor: 'white', color:'black'},}}/>
           <Stack.Screen name="Channel Creation" component={ChannelCreation} />
           <Stack.Screen name="Channel" component={Channel} />
       </Stack.Navigator>
