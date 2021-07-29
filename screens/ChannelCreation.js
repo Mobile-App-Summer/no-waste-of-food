@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View,TouchableOpacity, Text} from 'react-native';
 import { Button, Input } from 'react-native-elements';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Firebase from "../config/firebase";
@@ -41,16 +41,19 @@ const ChannelCreation = ({ navigation }) => {
                     onChangeText={(text) => setTitle(text)}
                 />
 
-                <Button
-                    title="Create Channel"
-                    onPress={create}
-                    containerStyle = {styles.button}
-                />
-                <Button
-                    title="Cancel"
-                    onPress={ () => navigation.navigate('Home', { screen: 'Chat' }) }
-                    containerStyle = {styles.button}
-                />
+            <View style={styles.buttonContainer}>
+                <TouchableOpacity
+                    style={styles.button1}
+                    onPress={create}>
+                    <Text style={{ color: 'white' }}> Create Channel </Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                    style={styles.button1}
+                    onPress={() => navigation.navigate('Home', { screen: 'Chat' })}>
+                    <Text style={{ color: 'white' }}> Cancel </Text>
+                </TouchableOpacity>
+            </View>
             </View>
         </KeyboardAwareScrollView>
     );
@@ -76,5 +79,19 @@ const styles = StyleSheet.create({
     button: {
         width: 200,
         marginTop: 10,
+    },
+    button1: {
+        marginTop: 10,
+        marginRight: 15,
+        marginLeft: 15,
+        padding: 10,
+        backgroundColor: '#E05A33',
+        color: 'white',
+        alignItems: 'center',
+        width: 130,
+    },
+    buttonContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
     },
 })
